@@ -5,10 +5,12 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{{ Lang::get('dashboard.title') }}</title>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon.png">
     <link href="/css/admin/style.css" rel="stylesheet">
+
 
 </head>
 
@@ -70,6 +72,7 @@
     ***********************************-->
     @yield('content')
 
+
     <!--**********************************
         Content body end
     ***********************************-->
@@ -103,6 +106,7 @@
 <!--**********************************
     Scripts
 ***********************************-->
+<script src="{{ asset('js/app.js')  }}"></script>
 <script src="/assets/plugins/common/common.min.js"></script>
 <script src="/js/admin/custom.min.js"></script>
 <script src="/js/admin/settings.js"></script>
@@ -117,6 +121,7 @@
 <script src="/assets/plugins/datamaps/datamaps.usa.min.js"></script>
 <script src="/js/admin/dashboard/dashboard-1.js"></script>
 <script src="/js/admin/plugins-init/datamap-usa-init.js"></script>
+
 @yield('scripts')
 </body>
 </html>

@@ -13,6 +13,18 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+Route::group(['namespace' => 'Api'], function() {
+
+    /* CATEGORY BEGIN */
+    Route::group(['prefix' => 'category', 'namespace' => 'Category'], function () {
+
+        Route::get('/', 'CategoryController@index')->name('category.index');
+        Route::post('/', 'CategoryController@store')->name('category.store');
+        Route::delete('/{category}', 'CategoryController@destroy')->name('category.destroy');
+    });
+    /* CATEGORY END */
+
 });
+
+

@@ -6,7 +6,7 @@
                     <i class="mdi mdi-view-dashboard"></i><span class="nav-text">{{ Lang::get('dashboard.catalog') }}</span><span class="badge bg-dpink text-white nav-badge">21</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="index-restaurent.html">{{ Lang::get('dashboard.categories') }}</a></li>
+                    <li><a href="/admin/category">{{ Lang::get('dashboard.categories') }}</a></li>
                     <li><a href="index-crypto.html">{{ Lang::get('dashboard.products') }}</a>
                     </li>
                     <li><a href="index-invoice.html">{{ Lang::get('dashboard.attributes') }}</a>

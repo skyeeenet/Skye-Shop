@@ -31,6 +31,42 @@ class CategoryController extends Controller
             'data' => CategoryResource::collection($this->categoryRepository->all()),
             'errors' => [],
         ], Response::HTTP_OK) ;
+
+        $categories = Category::all()->toArray();
+
+        $array_cat = [];
+
+        foreach ($categories as $key => $cat) {
+
+            $array_cat[$cat['parent_id']][] = $cat;
+        }
+
+        $result = [];
+
+        $this->view_cat($result, $array_cat, 12);
+
+        return $result;
+
+
+
+    }
+
+    public function view_cat(&$result, $categories, $parent_id = 0) {
+
+        if (empty($categories[$parent_id])) {
+
+            return;
+        }
+
+
+        for ($i = 0; $i < count($categories[$parent_id]); $i++) {
+
+            $result[] = $categories[$parent_id][$i]['name'];
+
+            $this->view_cat($result, $categories, $categories[$parent_id][$i]['id']);
+
+        }
+
     }
 
     /**
@@ -44,6 +80,12 @@ class CategoryController extends Controller
 
             'data' => new CategoryResource($this->categoryRepository->store($request)),
         ], Response::HTTP_CREATED);
+    }
+
+    public function update(Category $category, CategoryRequest $request) {
+
+
+        return $this->categoryRepository->update($category, $request);
     }
 
     /**

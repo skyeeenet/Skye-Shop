@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Helpers\Realizations\LangProcessor;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $this->app->bind('LP', function() {
+
+            return new LangProcessor();
+        });
     }
 }

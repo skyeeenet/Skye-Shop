@@ -17,13 +17,40 @@ use Illuminate\Http\Request;
 Route::group(['namespace' => 'Api'], function() {
 
     /* CATEGORY BEGIN */
-    Route::group(['prefix' => 'category', 'namespace' => 'Category'], function () {
+    Route::group(['namespace' => 'Category'], function () {
 
-        Route::get('/', 'CategoryController@index')->name('category.index');
+        Route::resource('category', 'CategoryController');
+
+        /*Route::get('/', 'CategoryController@index')->name('category.index');
         Route::post('/', 'CategoryController@store')->name('category.store');
-        Route::delete('/{category}', 'CategoryController@destroy')->name('category.destroy');
+        Route::put('/{category}', 'CategoryController@update')->name('category.update');
+        Route::delete('/{category}', 'CategoryController@destroy')->name('category.destroy');*/
     });
     /* CATEGORY END */
+
+
+    /* ATTRIBUTE BEGIN */
+    Route::group(['namespace' => 'Attribute'], function() {
+
+        route::resource('attribute', 'AttributeController');
+    });
+    /* ATTRIBUTE END */
+
+    Route::group(['namespace' => 'Image'], function() {
+
+        route::post('image', 'ImageController@store');
+        route::get('image', 'ImageController@index');
+        route::post('image/delete', 'ImageController@destroy');
+    });
+
+    /* AUTH BEGIN */
+    Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
+
+        Route::post('/login', 'AuthController@login');
+        Route::post('/register', 'AuthController@register');
+        Route::post('/logout', 'AuthController@logout');
+    });
+    /* AUTH END */
 
 });
 

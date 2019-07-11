@@ -33,6 +33,17 @@ class CategoryRepository implements CategoryRepositoryInterface {
         ]);
     }
 
+    public function update(Category $category, Request $request) {
+
+        $category->update([
+            'name' => $request->name,
+            'slug' => $request->slug,
+            'parent_id' => $request->parent,
+        ]);
+
+        return response(Response::HTTP_OK);
+    }
+
     public function delete(Category $category) {
 
         $child_categories = Category::where('parent_id', $category->id)->get();
@@ -44,6 +55,6 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
         $category->delete();
 
-        return response(Response::HTTP_NO_CONTENT);
+        return response(Response::HTTP_GONE);
     }
 }

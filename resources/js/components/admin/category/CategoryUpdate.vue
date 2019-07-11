@@ -10,7 +10,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Update Category</h5>
-                            <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
+                            <button @click="closeForm" type="button" class="close" data-dismiss="modal"><span>&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
@@ -31,11 +31,15 @@
                                 <select class="form-control"
                                         v-model="parent"
                                 >
-                                    <option v-for="category in categories">{{ category.name }}</option>
+                                    <option value="0">No-Category</option>
+                                    <option v-for="item in categoriesWithoutSelected">{{ item.name }}</option>
                                 </select>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Add</button>
+                                    <button v-if="!showPreloader" @click="closeForm" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button v-if="!showPreloader" type="submit" class="btn btn-primary">Update</button>
+
+                                    <Preloader v-if="showPreloader"></Preloader>
+
                                 </div>
                             </form>
                         </div>
@@ -47,15 +51,25 @@
 </template>
 
 <script>
-    import VueNotification from '../../notification';
+    import Preloader from '../../common/Preloader'
 
     export default {
 
-        props: ['category'],
+        props: ['selectedCategory'],
 
         mounted() {
 
             this.getCategories();
+            this.name = this.selectedCategory.name;
+            this.slug = this.selectedCategory.slug;
+        },
+
+        computed: {
+
+            categoriesWithoutSelected() {
+
+                return this.categories.filter( t => t.id != this.selectedCategory.id);
+            },
         },
 
         data() {
@@ -66,6 +80,7 @@
                 slug: '',
                 parent: 0,
                 categories: [],
+                showPreloader: false,
             };
         },
 
@@ -73,23 +88,20 @@
 
             onSubmit() {
 
+                this.showPreloader = true;
+
                 const category = {
 
+                    id: this.selectedCategory.id,
                     name: this.name,
                     slug: this.slug,
                     parent: this.parent,
                 };
 
-                axios.post('/api/category', category).then( ()=> {
+                axios.put('/api/category/' + category.id, category).then( (response)=> {
 
-                    this.$notification.new("Updated", {
-                        timer: 4,
-                        type: 'warning',
-                    });
+                    this.showPreloader = false;
                     this.getCategories();
-                    this.clear();
-
-                    this.$emit('refresh-cat');
                 } );
 
             },
@@ -108,10 +120,15 @@
                     this.categories = response.data.data;
                 });
             },
+
+            closeForm() {
+
+                this.$emit('close-update-form');
+            },
         },
 
         components: {
-            VueNotification,
+            Preloader,
         }
     }
 </script>

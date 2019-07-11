@@ -25,6 +25,7 @@
                                 :key="category.id"
                                 :category="category"
                                 @remove-category="showSubmitChanges"
+                                @update-category="showUpdate"
                             >
                             </CategoryItem>
 
@@ -34,6 +35,7 @@
                     <div
                         v-else
                     >
+                        <Preloader></Preloader>
                         <h2 class="text-center">Nothing to Show</h2>
                     </div>
                 </div>
@@ -44,8 +46,10 @@
                 </SubmitChanges>
 
                 <CategoryUpdate
-                    @update-category="showUpdate"
-                    :category="selectedCategory"
+                    v-if="showUpdateForm"
+                    @submit-update="submitUpdate"
+                    @close-update-form="closeUpdateForm"
+                    :selectedCategory="selectedCategory"
                 >
                 </CategoryUpdate>
             </div>
@@ -59,6 +63,7 @@ import CategoryItem from './CategoryItem';
 import CategoryCreate from './CategoryCreate';
 import CategoryUpdate from './CategoryUpdate';
 import SubmitChanges from '../modal/SubmitChanges';
+import Preloader from '../../common/Preloader'
 
 export default {
     name: 'category-index',
@@ -74,6 +79,7 @@ export default {
 
             categories: [],
             selectedCategory: '',
+            showUpdateForm: false,
         };
     },
 
@@ -83,15 +89,19 @@ export default {
         SubmitChanges,
         CategoryCreate,
         CategoryUpdate,
+        Preloader,
     },
 
     methods: {
 
         getCategories() {
 
+            this.showPreloader = true;
+
             axios.get('/api/category').then((response) => {
 
                 this.categories = response.data.data;
+                this.showPreloader = false;
             });
         },
 
@@ -116,7 +126,18 @@ export default {
         showUpdate(category) {
 
             this.selectedCategory = category;
-        }
+            this.showUpdateForm = true;
+        },
+
+        submitUpdate(category) {
+
+            this.refreshCategories();
+        },
+
+        closeUpdateForm() {
+
+            this.showUpdateForm = false;
+        },
     },
 }
 </script>

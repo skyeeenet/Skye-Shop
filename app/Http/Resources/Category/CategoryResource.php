@@ -15,6 +15,7 @@ class CategoryResource extends Resource
     public function toArray($request)
     {
         return [
+
             'id' => $this->id,
             'parent' => $this->parent_id,
             'name' => $this->name,

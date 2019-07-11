@@ -1,3 +1,3 @@
-import VueNotification from "@kugatsu/vuenotification";
+//import VueNotification from "@kugatsu/vuenotification";
 
-Vue.use(VueNotification);
+//Vue.use(VueNotification);

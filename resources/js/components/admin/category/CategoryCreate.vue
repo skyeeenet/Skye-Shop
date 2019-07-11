@@ -1,5 +1,6 @@
 <template>
     <div class="bootstrap-modal">
+
         <!-- Button trigger modal -->
         <div class="bootstrap-modal">
             <!-- Button trigger modal -->
@@ -9,6 +10,7 @@
             <div class="modal fade" id="createModal">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
+
                         <div class="modal-header">
                             <h5 class="modal-title">Create Category</h5>
                             <button type="button" class="close" data-dismiss="modal"><span>&times;</span>
@@ -32,11 +34,14 @@
                                 <select class="form-control"
                                     v-model="parent"
                                 >
-                                    <option v-for="category in categories">{{ category.name }}</option>
+                                    <option v-for="category in categories" :value="category.id">{{ category.name }}</option>
                                 </select>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Add</button>
+                                    <button v-if="!showPreloader" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button v-if="!showPreloader" type="submit" class="btn btn-primary">Add</button>
+
+                                    <Preloader v-if="showPreloader"></Preloader>
+
                                 </div>
                             </form>
                         </div>
@@ -49,7 +54,7 @@
 </template>
 
 <script>
-    import VueNotification from '../../notification';
+    import Preloader from '../../common/Preloader'
 
 export default {
 
@@ -67,6 +72,7 @@ export default {
             slug: '',
             parent: 0,
             categories: [],
+            showPreloader: false,
         };
     },
 
@@ -81,15 +87,13 @@ export default {
                 parent: this.parent,
             };
 
+            this.showPreloader = true;
+
             axios.post('/api/category', category).then( ()=> {
 
-                this.$notification.new("Created", {
-                    timer: 4,
-                    type: 'warning',
-                });
                 this.getCategories();
                 this.clear();
-
+                this.showPreloader = false;
                 this.$emit('refresh-cat');
             } );
 
@@ -112,7 +116,7 @@ export default {
     },
 
     components: {
-        VueNotification,
+        Preloader,
     }
 }
 </script>

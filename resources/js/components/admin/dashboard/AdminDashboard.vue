@@ -1,6 +1,5 @@
 <template>
     <div class="container-fluid">
-        <ImageSelect></ImageSelect>
         <div class="row page-titles">
             <div class="col p-md-0">
                 <h4>Restaurant</h4>

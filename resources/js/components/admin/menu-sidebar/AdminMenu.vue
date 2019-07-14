@@ -19,7 +19,9 @@
 
                         <li><router-link tag="a" :to="{ name: 'attribute' }">Attribute</router-link></li>
 
-                        <li><router-link tag="a" :to="{ name: 'option' }">Options</router-link></li>
+                        <li><router-link tag="a" :to="{ name: 'option-group' }">Option Groups</router-link></li>
+
+                        <li><router-link tag="a" :to="{ name: 'option-value-index' }">Options</router-link></li>
 
                         <li><a href="index-real-estate.html">Manufacturers</a>
                         </li>

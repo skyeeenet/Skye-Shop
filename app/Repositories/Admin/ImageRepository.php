@@ -40,7 +40,15 @@ class ImageRepository implements ImageRepositoryInterface {
         return true;
     }
 
-    public function destroy(Request $request) {
+    public function destroy(Request $request, FileProcessor $fileProcessor) {
+
+        $images = Image::ImagesByIds($request->items)->get();
+
+        foreach ($images as $image) {
+
+            $fileProcessor->deleteFile($image->url);
+            $fileProcessor->deleteFile($image->thumbnail);
+        }
 
         Image::destroy($request->items);
 

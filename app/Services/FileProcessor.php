@@ -14,10 +14,6 @@ class FileProcessor {
         //get filename with extension
         $filenamewithextension = $request->file($fileName)->getClientOriginalName();
 
-        /*
-        TODO Implement Cur to Lat
-        */
-
         //get filename without extension
         $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
 
@@ -35,5 +31,20 @@ class FileProcessor {
         $resultPath = '/'.$path.$filenametostore;
 
         return $resultPath;
+    }
+
+    public function deleteFile($path) {
+
+        try {
+
+            unlink($path);
+
+        } catch (\Exception $exception) {
+
+            info( 'deleteFileException --- ' . $exception . '-----END');
+        }
+
+        return true;
+
     }
 }

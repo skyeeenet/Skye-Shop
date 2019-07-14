@@ -38,10 +38,15 @@ class ImageController extends ApiController {
         }
     }
 
-    // Delete images by array of their indexes
-    public function destroy(Request $request) {
+    public function show(Image $image) {
 
-        if ($this->imageRepository->destroy($request)) {
+      return $this->sendSuccess(200, $image);
+    }
+
+    // Delete images by array of their indexes
+    public function destroy(Request $request, FileProcessor $fileProcessor) {
+
+        if ($this->imageRepository->destroy($request, $fileProcessor)) {
 
             return $this->sendSuccess(204);
         } else {

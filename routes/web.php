@@ -7,4 +7,9 @@ Route::get('/locale/{locale}', 'Localization\LocalizationController@show');
 
 Auth::routes();
 
+Route::group(['namespace' => 'CustomAuth'], function () {
+
+  Route::get('/auth', 'CustomAuthController@index');
+});
+
 Route::get('/home', 'HomeController@index')->name('home');

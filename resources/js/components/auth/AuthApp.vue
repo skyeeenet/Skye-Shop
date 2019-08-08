@@ -19,6 +19,8 @@
 </template>
 
 <script>
+import {mapMutations, mapGetters} from 'vuex';
+
   export default {
 
     mounted() {
@@ -38,6 +40,7 @@
       }
     },
 
+    computed: mapGetters(['getToken']),
 
     methods: {
 
@@ -56,6 +59,7 @@
 
       },
 
+      ...mapMutations(['setApiToken']),
       onSubmitLogin() {
 
         const user = {
@@ -66,8 +70,14 @@
 
         axios.post('/api/auth/login', user).then( (response) => {
 
-          console.log(response);
-        } )
+          if (response.data.data.success == 'success') {
+
+          this.setApiToken(response.data.data.api_token);
+
+          }
+
+          console.log(this.$store.getters.getToken)
+        });
 
       },
 

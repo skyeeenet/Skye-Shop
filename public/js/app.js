@@ -1816,6 +1816,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _nav_header_AdminNavHeader__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./nav-header/AdminNavHeader */ "./resources/js/components/admin/nav-header/AdminNavHeader.vue");
 /* harmony import */ var _menu_sidebar_AdminMenu__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./menu-sidebar/AdminMenu */ "./resources/js/components/admin/menu-sidebar/AdminMenu.vue");
 /* harmony import */ var _content_AdminContent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./content/AdminContent */ "./resources/js/components/admin/content/AdminContent.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 //
 //
 //
@@ -2389,11 +2390,67 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
+  beforeCreate: function beforeCreate() {
+    var api_token = {
+      api_token: this.$store.getters.getToken
+    };
+    axios.post('/api/user/role', api_token).then(function (response) {
+      if (response.data.name !== 'Admin') {
+        //this.$router.push('/api/auth');
+        document.location.href = '/auth';
+      }
+    });
+  },
   components: {
     AdminHeader: _header_AdminHeader__WEBPACK_IMPORTED_MODULE_0__["default"],
     AdminNavHeader: _nav_header_AdminNavHeader__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -4306,9 +4363,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         password: this.password
       };
       axios.post('/api/auth/login', user).then(function (response) {
-        if (response.data.data.success == 'success') {
-          _this.setApiToken(response.data.data.api_token);
-        }
+        _this.setApiToken(response.data.data.api_token);
 
         console.log(_this.$store.getters.getToken);
       });
@@ -40432,7 +40487,7 @@ var staticRenderFns = [
             { attrs: { href: "https://themeforest.net/user/digitalheaps" } },
             [_vm._v("Digitalheaps")]
           ),
-          _vm._v(", Developed by "),
+          _vm._v(", Developed\n        by "),
           _c("a", { attrs: { href: "https://themeforest.net/user/quixlab" } }, [
             _vm._v("Quixlab")
           ]),
@@ -41169,7 +41224,9 @@ var staticRenderFns = [
                                   },
                                   [_vm._v("Space X")]
                                 ),
-                                _vm._v(" is going to launch a Rocket")
+                                _vm._v(
+                                  " is going to\n                          launch a Rocket"
+                                )
                               ])
                             ])
                           ])
@@ -41193,7 +41250,9 @@ var staticRenderFns = [
                                   },
                                   [_vm._v("Niloy")]
                                 ),
-                                _vm._v(" commented on your photo")
+                                _vm._v(
+                                  " commented on\n                          your photo"
+                                )
                               ])
                             ])
                           ])
@@ -41217,7 +41276,9 @@ var staticRenderFns = [
                                   },
                                   [_vm._v("Bill Gates")]
                                 ),
-                                _vm._v(" likes your photo")
+                                _vm._v(
+                                  " likes\n                          your photo"
+                                )
                               ])
                             ])
                           ])

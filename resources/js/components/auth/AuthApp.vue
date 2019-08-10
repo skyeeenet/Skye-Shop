@@ -70,13 +70,9 @@ import {mapMutations, mapGetters} from 'vuex';
 
         axios.post('/api/auth/login', user).then( (response) => {
 
-          if (response.data.data.success == 'success') {
-
           this.setApiToken(response.data.data.api_token);
+            console.log(this.$store.getters.getToken)
 
-          }
-
-          console.log(this.$store.getters.getToken)
         });
 
       },

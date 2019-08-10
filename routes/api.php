@@ -58,6 +58,28 @@ Route::group(['namespace' => 'Api'], function () {
   });
   /* OPTIONS END */
 
+  /* Roles BEGIN */
+  Route::group(['namespace' => 'Roles'], function () {
+
+    Route::resource('role', 'RoleController');
+  });
+  /* Roles END */
+
+  /*USER BEGIN*/
+  Route::group(['namespace' => 'User'], function () {
+
+    Route::post('user', 'UserController@getUserByToken');
+    Route::post('user/role', 'UserController@getUserRoleByToken');
+  });
+  /*USER END*/
+
+  /*SETTINGS BEGIN*/
+  Route::group(['namespace' => 'Settings'], function () {
+
+    Route::post('settings', 'SettingsController@store');
+  });
+  /*SETTINGS END*/
+
   /* AUTH BEGIN */
   Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
 

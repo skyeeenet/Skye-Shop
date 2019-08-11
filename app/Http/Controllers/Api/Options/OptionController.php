@@ -9,16 +9,13 @@ use Illuminate\Http\Request;
 
 class OptionController extends ApiController {
 
-    private $optionRepository;
-    private $model;
+    public function __construct(OptionRepository $optionRepository, Option $option) {
 
-    public function __construct(OptionRepository $optionRepository) {
-
-        $this->optionRepository = $optionRepository;
-        $this->model = new Option();
+        $this->repository = $optionRepository;
+        $this->model = $option;
     }
 
-    public function index() {
+    /*public function index() {
 
         return $this->sendSuccess(200, $this->optionRepository->all($this->model));
     }
@@ -55,5 +52,5 @@ class OptionController extends ApiController {
 
             return $this->sendFail(404);
         }
-    }
+    }*/
 }

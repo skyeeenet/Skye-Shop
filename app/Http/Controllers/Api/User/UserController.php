@@ -10,12 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends ApiController{
 
-  private $userRepository;
+  public function __construct(UserRepository $userRepository, User $user) {
 
-  public function __construct(UserRepository $userRepository) {
-
-    $this->userRepository = $userRepository;
-
+    $this->repository = $userRepository;
+    $this->model = $user;
     $this->middleware('auth:api');
   }
 

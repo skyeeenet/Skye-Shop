@@ -11,4 +11,11 @@ class OptionRepository extends Repository implements OptionRepositoryInterface {
 
     return $model::orderBy('sort_order')->get();
   }
+
+  public function delete(Model $model) {
+
+    $model->value()->delete();
+    $model->delete();
+    return true;
+  }
 }

@@ -27,6 +27,11 @@ abstract class Repository
     return true;
   }
 
+  public function show($req, Model $model, $column = 'id') {
+
+    return $model->where($column, $req)->firstOrFail();
+  }
+
   public function delete(Model $model) {
 
     $model->delete();

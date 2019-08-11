@@ -30,7 +30,7 @@ class ApiController extends Controller {
 
   public function show($req) {
 
-    return $this->sendSuccess(200, $this->model->findOrFail($req));
+    return $this->sendSuccess(200, $this->repository->show($req, $this->model));
   }
 
   public function update(Request $request, $req) {

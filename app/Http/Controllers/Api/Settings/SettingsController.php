@@ -14,4 +14,8 @@ class SettingsController extends ApiController {
     $this->repository = $settingsRepository;
   }
 
+  public function show($req) {
+
+    return $this->sendSuccess(200, $this->repository->show($req, $this->model, 'type'));
+  }
 }

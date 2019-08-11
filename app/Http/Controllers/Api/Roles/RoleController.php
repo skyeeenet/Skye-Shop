@@ -13,13 +13,13 @@ class RoleController extends ApiController {
   protected $roleRepository;
   protected $model;
 
-  public function __construct(RoleRepository $roleRepository) {
+  public function __construct(Role $role ,RoleRepository $roleRepository) {
 
-    $this->roleRepository = $roleRepository;
-    $this->model = new Role();
+    $this->repository = $roleRepository;
+    $this->model = $role;
   }
 
-  public function index() {
+  /*public function index() {
 
     return $this->sendSuccess(200, $this->roleRepository->all($this->model));
   }
@@ -58,6 +58,6 @@ class RoleController extends ApiController {
 
       return $this->sendFail();
     }
-  }
+  }*/
 
 }

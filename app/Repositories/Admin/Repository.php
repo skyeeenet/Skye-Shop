@@ -7,32 +7,30 @@ namespace App\Repositories\Admin;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-abstract class Repository {
+abstract class Repository
+{
 
-    public function all(Model $model) {
+  public function all(Model $model) {
 
-        return $model::all();
-    }
+    return $model::all();
+  }
 
-    public function store(Request $request, Model $model) {
+  public function store(Request $request, Model $model) {
 
-        $model->create($request->all());
+    $model->create($request->all());
+    return true;
+  }
 
-        return true;
-    }
+  public function update(Request $request, Model $model) {
 
-    public function update(Request $request, Model $model) {
+    $model->update($request->all());
+    return true;
+  }
 
-        $model->update($request->all());
+  public function delete(Model $model) {
 
-        return true;
-    }
-
-    public function delete(Model $model) {
-
-        $model->delete();
-
-        return true;
-    }
+    $model->delete();
+    return true;
+  }
 
 }

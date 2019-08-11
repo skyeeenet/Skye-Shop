@@ -76,7 +76,11 @@ Route::group(['namespace' => 'Api'], function () {
   /*SETTINGS BEGIN*/
   Route::group(['namespace' => 'Settings'], function () {
 
+    Route::get('settings', 'SettingsController@index');
+    Route::get('settings/{id}', 'SettingsController@show');
     Route::post('settings', 'SettingsController@store');
+    Route::put('settings/{id}', 'SettingsController@update');
+    Route::delete('settings/{id}', 'SettingsController@destroy');
   });
   /*SETTINGS END*/
 

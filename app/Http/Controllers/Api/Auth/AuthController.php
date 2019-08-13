@@ -9,8 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class AuthController extends Controller
-{
+class AuthController extends Controller {
 
     protected $authRepository;
 

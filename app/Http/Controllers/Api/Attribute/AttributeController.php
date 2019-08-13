@@ -3,57 +3,53 @@
 namespace App\Http\Controllers\Api\Attribute;
 
 use App\Attribute;
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Attribute\AttributeRequest;
-use App\Http\Resources\Attribute\AttributeResource;
 use App\Repositories\Admin\AttributeRepository;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Response;
 
-class AttributeController extends Controller
-{
-    private $attributeRepository;
+class AttributeController extends ApiController {
 
-    public function __construct(AttributeRepository $attributeRepository) {
+  public function __construct(AttributeRepository $attributeRepository, Attribute $attribute) {
 
-        $this->attributeRepository = $attributeRepository;
+    $this->repository = $attributeRepository;
+    $this->model = $attribute;
+  }
+
+  public function index() {
+
+    return $this->sendSuccess(200, $this->repository->all($this->model));
+  }
+
+  public function store(AttributeRequest $attributeRequest) {
+
+    if ($this->repository->store($attributeRequest, $this->model)) {
+
+      return $this->sendSuccess(201);
+    } else {
+
+      return $this->sendFail();
     }
+  }
 
-    public function index() {
+  public function update(Attribute $attribute, AttributeRequest $attributeRequest) {
 
-        return response([
+    if ($this->repository->update($attributeRequest, $attribute)) {
 
-            'success' => true,
-            'data' => AttributeResource::collection($this->attributeRepository->all())
-        ], Response::HTTP_OK);
+      return $this->sendSuccess(201);
+    } else {
+
+      return $this->sendFail();
     }
+  }
 
-    public function store(AttributeRequest $attributeRequest) {
+  public function destroy(Attribute $attribute) {
 
-        $this->attributeRepository->store($attributeRequest);
+    if ($this->repository->delete($attribute)) {
 
-        return response([
+      $this->sendSuccess(204);
+    } else {
 
-            'success' => true,
-        ],Response::HTTP_CREATED);
+      return $this->sendFail();
     }
-
-    public function update(Attribute $attribute, AttributeRequest $attributeRequest) {
-
-        $this->attributeRepository->update($attribute, $attributeRequest);
-
-        return response([
-
-            'success' => true,
-        ],Response::HTTP_OK);
-    }
-
-    public function destroy(Attribute $attribute) {
-
-        $this->attributeRepository->delete($attribute);
-
-        return response([
-
-            'success' => true,
-        ],Response::HTTP_GONE);
-    }
+  }
 }

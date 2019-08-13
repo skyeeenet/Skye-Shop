@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Image;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Controllers\Controller;
 use App\Image;
 use App\Repositories\Admin\ImageRepository;
@@ -11,30 +12,23 @@ use App\Traits\ApiHelper;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class ImageController extends Controller {
+class ImageController extends ApiController {
 
-  use ApiHelper;
+  public function __construct(ImageRepository $imageRepository) {
 
-  private $imageRepository;
-
-  public function __construct(ImageRepository $imageRepository)
-  {
-
-    $this->imageRepository = $imageRepository;
+    $this->repository = $imageRepository;
   }
 
   // Return All Images
-  public function index()
-  {
+  public function index() {
 
-    return $this->sendSuccess(200, $this->imageRepository->all());
+    return $this->sendSuccess(200, $this->repository->all());
   }
 
   // Create, compress and store an image and the thumbnail
-  public function store(Request $request, ImageProcessor $imageProcessor, FileProcessor $fileProcessor)
-  {
+  public function store(Request $request, ImageProcessor $imageProcessor, FileProcessor $fileProcessor) {
 
-    if ($this->imageRepository->store($request, $imageProcessor, $fileProcessor)) {
+    if ($this->repository->store($request, $imageProcessor, $fileProcessor)) {
 
       return $this->sendSuccess(201);
     } else {
@@ -43,17 +37,15 @@ class ImageController extends Controller {
     }
   }
 
-  public function show(Image $image)
-  {
+  public function show(Image $image) {
 
     return $this->sendSuccess(200, $image);
   }
 
   // Delete images by array of their indexes
-  public function destroy(Request $request, FileProcessor $fileProcessor)
-  {
+  public function destroy(Request $request, FileProcessor $fileProcessor) {
 
-    if ($this->imageRepository->destroy($request, $fileProcessor)) {
+    if ($this->repository->destroy($request, $fileProcessor)) {
 
       return $this->sendSuccess(204);
     } else {

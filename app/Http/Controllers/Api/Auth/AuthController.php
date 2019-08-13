@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Http\Controllers\Api\ApiController;
 use App\Http\Requests\Auth\AuthRequest;
 use App\Http\Controllers\Controller;
 use App\Repositories\Auth\AuthRepository;
@@ -9,40 +10,50 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
-class AuthController extends Controller {
+class AuthController extends ApiController {
 
-    protected $authRepository;
+  public function __construct(AuthRepository $authRepository) {
 
-    public function __construct(AuthRepository $authRepository) {
+    $this->repository = $authRepository;
 
-        $this->authRepository = $authRepository;
+    $this->middleware('auth:api')->only('logout');
+  }
 
-        $this->middleware('auth:api')->only('logout');
+  public function register(AuthRequest $request) {
+
+    if ($this->repository->register($request)) {
+
+      return $this->sendSuccess(201);
+    } else {
+
+      return $this->sendFail();
     }
+  }
 
-    public function register(AuthRequest $request) {
+  public function login(AuthRequest $request) {
 
-        $this->authRepository->register($request);
+    $api_token = $this->repository->login($request);
 
-        return response([
-            'status' => 'success'
-        ],Response::HTTP_CREATED);
+    if ($api_token) {
+
+      return $this->sendSuccess(200, [
+
+          'api_token' => $api_token,
+      ]);
+    } else {
+
+      return $this->sendFail();
     }
+  }
 
-    public function login(AuthRequest $request) {
+  public function logout(Request $request) {
 
-        $api_token = $this->authRepository->login($request);
+    if ($this->repository->logout($request)) {
 
-        return response([
-            'status' => 'success',
-            'data' => [
-                'api_token' => $api_token,
-            ],
-        ], Response::HTTP_OK);
+      return $this->sendSuccess(204);
+    } else {
+
+      return $this->sendFail();
     }
-
-    public function logout(Request $request) {
-
-        return $this->authRepository->logout($request);
-    }
+  }
 }

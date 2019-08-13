@@ -73,6 +73,13 @@ Route::group(['namespace' => 'Api'], function () {
   });
   /*USER END*/
 
+  /* Products BEGIN */
+  Route::group(['namespace' => 'Products'], function () {
+
+    Route::resource('products', 'ProductController');
+  });
+  /* Products END */
+
   /*SETTINGS BEGIN*/
   Route::group(['namespace' => 'Settings'], function () {
 
